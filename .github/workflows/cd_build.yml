@@ -12,4 +12,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - run: git diff --name-only ${{github.event.before}} ${{github.event.before}} | grep "^ms-" | sed "s/\(^ms-[^\/]*\).*/\1/" | uniq
+      - run: git diff --name-only ${{github.event.before}} ${{github.event.after}} | grep "^ms-" | sed "s/\(^ms-[^\/]*\).*/\1/" | uniq
