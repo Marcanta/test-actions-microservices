@@ -14,4 +14,4 @@ jobs:
         with:
           fetch-depth: 0
       
-      - run: git diff --name-only ${{github.event.before}} ${{github.event.after}} | grep "^ms-" | sed "s/\(^ms-[^\/]*\).*/\1/" | uniq
+      - run: git diff --name-only ${{github.event.before}} ${{github.event.after}} | grep "^ms-" | sed "s/\(^ms-[^\/]*\).*/\1/" | uniq | xargs -I % sh -c 'docker build -t % --platform linux/x86_64 --build-arg MS_NAME=% -f Dockerfile .'
