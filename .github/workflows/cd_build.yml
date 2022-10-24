@@ -16,8 +16,7 @@ jobs:
         with:
           fetch-depth: 0
           
-      - name: create-microservices-matrix
-        id: microservices-matrix
+      - id: microservices-matrix
         run: |
           matrix=$(git diff --name-only ${{github.event.before}} ${{github.event.after}} | grep "^ms-" | sed "s/\(^ms-[^\/]*\).*/\1/" | uniq | xargs -n 1 | jq -R . | jq -sc .)
           echo $matrix
@@ -29,7 +28,7 @@ jobs:
     steps:
       - name: Check matrix definition
         run: |
-          matrix='${{ needs.microservices-matrix.outputs.matrix }}'
+          matrix='${{ needs.get-microservices.outputs.matrix }}'
           echo $matrix
           echo $matrix | jq .
           
