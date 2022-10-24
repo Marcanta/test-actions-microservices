@@ -33,13 +33,16 @@ jobs:
           echo $matrix | jq .
           
           
-#   build-microservices:
-#     runs-on: ubuntu-latest
-#     needs: get-microservices
-#     strategy:
-#       fail-fast: false
-#       matrix: 
-#         microservices: ${{needs.microservices-matrix.outputs.matrix}} #["ms-authentication"]
+  build-microservices:
+    runs-on: ubuntu-latest
+    needs: get-microservices
+    strategy:
+      fail-fast: false
+      matrix: 
+        microservices: ${{fromJson(needs.get-microservices.outputs.matrix)}} #["ms-authentication"]
+    steps:
+      - name: test
+        run: echo ${{matrix.microservices}}
     
     
         # -I % sh -c 'docker build -t % --platform linux/x86_64 --build-arg MS_NAME=% -f Dockerfile .'
