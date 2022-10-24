@@ -35,4 +35,4 @@ jobs:
         run: echo ${{matrix.microservices}}
       
       - name: microservice build
-        run: docker build -t ${{matrix.microservices}} --platform linux/x86_64 --build-arg MS_NAME=${{matrix.microservices}} -f Dockerfile .
+        run: docker build -t ${{matrix.microservices}} --build-arg MS_NAME=${{matrix.microservices}} -f Dockerfile .
