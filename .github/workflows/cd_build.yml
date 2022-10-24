@@ -19,6 +19,7 @@ jobs:
       - name: create-microservices-matrix
         run: |
           matrix=$(git diff --name-only ${{github.event.before}} ${{github.event.after}} | grep "^ms-" | sed "s/\(^ms-[^\/]*\).*/\1/" | uniq | xargs -n 1 | jq -R . | jq -sc .)
+          echo $matrix
           echo "::set-output name=matrix::$matrix"
 
   check-matrix:
