@@ -37,12 +37,7 @@ jobs:
         run: echo ${{matrix.microservices}}
         
       - name: microservice version
-        run: |
-         version=$(cat ${{matrix.microservices}}/package.json | jq -r .version)
-         echo "MS_VERSION=$(cat ${{matrix.microservices}}/package.json | jq -r .version)" >> $GITHUB_ENV
-     
-      - name: echo
-        run: echo ${{env.MS_VERSION}}
+        run: echo "MS_VERSION=$(cat ${{matrix.microservices}}/package.json | jq -r .version)" >> $GITHUB_ENV
 
       - name: microservice build
         run: docker build -t ${{matrix.microservices}}/${{env.MS_VERSION}} --build-arg MS_NAME=${{matrix.microservices}} -f Dockerfile .
