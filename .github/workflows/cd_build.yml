@@ -21,16 +21,6 @@ jobs:
           matrix=$(git diff --name-only ${{github.event.before}} ${{github.event.after}} | grep "^ms-" | sed "s/\(^ms-[^\/]*\).*/\1/" | uniq | xargs -n 1 | jq -R . | jq -sc .)
           echo $matrix
           echo "::set-output name=matrix::$matrix"
-
-  check-matrix:
-    runs-on: ubuntu-latest
-    needs: get-microservices
-    steps:
-      - name: Check matrix definition
-        run: |
-          matrix='${{ needs.get-microservices.outputs.matrix }}'
-          echo $matrix
-          echo $matrix | jq .
           
           
   build-microservices:
@@ -39,10 +29,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix: 
-        microservices: ${{fromJson(needs.get-microservices.outputs.matrix)}} #["ms-authentication"]
+        microservices: ${{fromJson(needs.get-microservices.outputs.matrix)}} # np, ca n'est pas une erreur
     steps:
-      - name: test
+      - name: microservice name
         run: echo ${{matrix.microservices}}
-    
-    
-        # -I % sh -c 'docker build -t % --platform linux/x86_64 --build-arg MS_NAME=% -f Dockerfile .'
+      
+      - name: microservice build
+        run: docker build -t ${{matrix.microservices}} --platform linux/x86_64 --build-arg MS_NAME=${{matrix.microservices}} -f Dockerfile .
