@@ -31,6 +31,8 @@ jobs:
       matrix: 
         microservices: ${{fromJson(needs.get-microservices.outputs.matrix)}} # np, ca n'est pas une erreur
     steps:
+      - uses: actions/checkout@v3
+      
       - name: microservice name
         run: echo ${{matrix.microservices}}
         
