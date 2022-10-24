@@ -37,7 +37,9 @@ jobs:
         run: echo ${{matrix.microservices}}
         
       - name: microservice version
-        run: version=$(cat ${{matrix.microservices}}/package.json | jq -r .version)
+        run: |
+          version=$(cat ${{matrix.microservices}}/package.json | jq -r .version)
+          echo version
         
       - name: microservice version echo
         run: echo $version
